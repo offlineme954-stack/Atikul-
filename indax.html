@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>বিশেষ একটি মুহূর্ত ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;500;700&display=swap');
+
+        :root {
+            --pearl: #ffffff;
+            --lavender: #f3e5f5;
+            --rose: #ffebee;
+            --champagne: #fff5e1;
+            --gold: #d4af37;
+            --soft-blue: #e3f2fd;
+            --accent: #ff4d6d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: radial-gradient(circle at center, var(--pearl), var(--lavender), var(--champagne));
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4a4a4a;
+        }
+
+        /* --- Premium Background Elements --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border: 15px solid transparent;
+            border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M0,0 Q50,20 100,0 Q80,50 100,100 Q50,80 0,100 Q20,50 0,0' fill='none' stroke='rgba(212, 175, 55, 0.2)' stroke-width='2'/%3E%3C/svg%3E") 30 stretch;
+            z-index: 10;
+        }
+
+        /* --- UI Containers --- */
+        .container {
+            text-align: center;
+            z-index: 5;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .scene {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out, transform 1s ease-out;
+        }
+
+        .scene.active {
+            display: block;
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .big-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* --- Buttons --- */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .primary-btn {
+            background: white;
+            border: 2px solid var(--accent);
+            padding: 12px 35px;
+            border-radius: 50px;
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+        }
+
+        .primary-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        #no-btn {
+            position: absolute;
+            white-space: nowrap;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- Heart Animation --- */
+        .heart-svg {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .pulse {
+            animation: pulse-heart 2s infinite;
+            fill: var(--accent);
+            filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.4));
+        }
+
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Floating Elements --- */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        /* --- Credit --- */
+        .footer-credit {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+            color: rgba(0,0,0,0.3);
+            text-decoration: none;
+            z-index: 1000;
+        }
+
+        /* --- Responsive Typography --- */
+        @media (max-width: 400px) {
+            h1 { font-size: 1.4rem; }
+            .big-text { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+    <div class="frame"></div>
+
+    <div class="container">
+        <!-- Scene 1: Introduction -->
+        <div id="scene1" class="scene active">
+            <svg class="heart-svg" viewBox="0 0 32 32">
+                <path class="pulse" d="M16,28.261c0,0-14-7.926-14-17.046c0-9.356,13.159-10.399,14-0.454c0.841-9.945,14-8.902,14,0.454 C30,20.335,16,28.261,16,28.261z"/>
+            </svg>
+            <h1 id="text1">তোমাকে একটা কথা জিজ্ঞেস করবো… ❤️</h1>
+            <h1 id="text2" style="display:none">একটু মন দিয়ে শুনবে?</h1>
+            <div class="btn-group">
+                <button class="primary-btn" id="start-btn">শুনবো ❤️</button>
+            </div>
+        </div>
+
+        <!-- Scene 2: Proposal -->
+        <div id="scene2" class="scene">
+            <h1 id="prop1">একটা কথা অনেকদিন ধরে বলতে চেয়েছিলাম…</h1>
+            <h1 id="prop2" style="display:none">আজ সাহস করে জিজ্ঞেস করছি… 🥺</h1>
+            <h1 id="prop3" class="big-text" style="display:none">তুমি কি আমার বউ হবে? ❤️</h1>
+            <div class="btn-group" id="prop-btns" style="display:none">
+                <button class="primary-btn" id="yes-btn">হ্যাঁ ❤️</button>
+                <button class="primary-btn" id="no-btn">না 🙈</button>
+            </div>
+        </div>
+
+        <!-- Scene 3: Kabul (Repeated) -->
+        <div id="scene3" class="scene">
+            <h1 class="big-text" id="kabul-text"></h1>
+        </div>
+
+        <!-- Scene 4: Final -->
+        <div id="scene4" class="scene">
+            <svg class="heart-svg" viewBox="0 0 32 32" style="width:100px; height:100px;">
+                <path class="pulse" d="M16,28.261c0,0-14-7.926-14-17.046c0-9.356,13.159-10.399,14-0.454c0.841-9.945,14-8.902,14,0.454 C30,20.335,16,28.261,16,28.261z"/>
+            </svg>
+            <h1 class="big-text">আলহামদুলিল্লাহ ❤️</h1>
+            <h1>একটা সুন্দর গল্পের শুরু হোক… 🌸</h1>
+            <p>অনেক সুন্দর মুহূর্ত জমা হোক। ❤️</p>
+        </div>
+    </div>
+
+    <a href="https://www.facebook.com/si.md.atikul.islam" class="footer-credit" target="_blank">Created by MD Atiqul Islam ❤️</a>
+
+    <script>
+        // CONFIG
+        const CONFIG = {
+            noMessages: ["আরে! 🙈", "একটু ভাবো না…", "না না! 😭", "আবার চেষ্টা করো 😅"],
+            creatorLink: "https://www.facebook.com/si.md.atikul.islam"
+        };
+
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        // Resize Canvas
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Particle System
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = `rgba(${200 + Math.random() * 55}, ${180 + Math.random() * 50}, ${220 + Math.random() * 35}, ${0.3 + Math.random() * 0.4})`;
+                this.type = Math.random() > 0.8 ? 'heart' : 'circle';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                if (this.type === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.font = `${this.size * 3}px serif`;
+                    ctx.fillText('🌸', this.x, this.y);
+                }
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Scene Logic
+        const scenes = {
+            1: document.getElementById('scene1'),
+            2: document.getElementById('scene2'),
+            3: document.getElementById('scene3'),
+            4: document.getElementById('scene4')
+        };
+
+        function showScene(id) {
+            Object.values(scenes).forEach(s => s.classList.remove('active'));
+            setTimeout(() => {
+                scenes[id].classList.add('active');
+            }, 100);
+        }
+
+        // --- Interaction Logic ---
+
+        // Scene 1
+        setTimeout(() => {
+            document.getElementById('text2').style.display = 'block';
+            document.getElementById('text2').style.animation = 'fadeIn 1s';
+        }, 2000);
+
+        const startBtn = document.getElementById('start-btn');
+        startBtn.onclick = () => {
+            playSoftMusic();
+            showScene(2);
+            setTimeout(() => {
+                document.getElementById('prop2').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('prop3').style.display = 'block';
+                    document.getElementById('prop-btns').style.display = 'flex';
+                }, 1500);
+            }, 2000);
+        };
+
+        // No Button Logic
+        const noBtn = document.getElementById('no-btn');
+        let noAttempts = 0;
+
+        function moveNo() {
+            noAttempts++;
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            noBtn.innerText = CONFIG.noMessages[noAttempts % CONFIG.noMessages.length];
+            
+            if (noAttempts > 6) {
+                noBtn.style.transform = `scale(${1 - (noAttempts-6)*0.2})`;
+                if (noAttempts > 10) noBtn.style.display = 'none';
+            }
+        }
+
+        noBtn.onmouseover = moveNo;
+        noBtn.ontouchstart = (e) => { e.preventDefault(); moveNo(); };
+
+        // Yes Button Logic
+        document.getElementById('yes-btn').onclick = () => {
+            showScene(3);
+            const kabulText = document.getElementById('kabul-text');
+            
+            // Kabul 1
+            kabulText.innerText = "কবুল ❤️";
+            kabulText.style.animation = "fadeIn 1s";
+            
+            setTimeout(() => {
+                // Kabul 2
+                kabulText.style.opacity = 0;
+                setTimeout(() => {
+                    kabulText.innerText = "কবুল ❤️";
+                    kabulText.style.color = "var(--gold)";
+                    kabulText.style.opacity = 1;
+                    triggerBurst();
+                }, 500);
+            }, 2000);
+
+            setTimeout(() => {
+                // Kabul 3
+                kabulText.style.opacity = 0;
+                setTimeout(() => {
+                    kabulText.innerText = "কবুল ❤️";
+                    kabulText.style.fontSize = "4rem";
+                    kabulText.style.opacity = 1;
+                    triggerBurst();
+                    triggerBurst();
+                }, 500);
+            }, 4000);
+
+            setTimeout(() => {
+                showScene(4);
+                setInterval(triggerBurst, 1500);
+            }, 6500);
+        };
+
+        // Effects
+        function triggerBurst() {
+            for(let i=0; i<20; i++) {
+                const p = new Particle();
+                p.x = canvas.width/2;
+                p.y = canvas.height/2;
+                p.speedX = (Math.random() - 0.5) * 10;
+                p.speedY = (Math.random() - 0.5) * 10;
+                p.size = Math.random() * 8 + 4;
+                particles.push(p);
+                setTimeout(() => particles.shift(), 3000);
+            }
+        }
+
+        // Soft Melody (Web Audio API)
+        function playSoftMusic() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            
+            function playNote(freq, start, duration) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.1, start);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(start);
+                osc.stop(start + duration);
+            }
+
+            const melody = [261, 329, 392, 523, 392, 329];
+            let now = ctx.currentTime;
+            for(let i=0; i<20; i++) {
+                melody.forEach((f, idx) => {
+                    playNote(f, now + (idx * 0.5) + (i * 3), 1.5);
+                });
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
